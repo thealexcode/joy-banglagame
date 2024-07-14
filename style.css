@@ -108,9 +108,10 @@ body {
 /* New button styles */
 .wrapper {
     position: fixed;
-    top: 70%;
-    left: 50%;
+   /* top: 70%;
+    left: 50%;*/
     transform: translate(-50%, -50%);
+    margin: 12px 198px ;
 }
 
 a {
@@ -211,11 +212,11 @@ footer {
 .mode-selection {
     display: flex;
     justify-content: space-around;
-    margin-bottom: 20px;
+    margin-right: 9px 
 }
 
 .mode-selection button {
-    padding: 10px 20px;
+    padding: 1px 20px;
     font-size: 16px;
     cursor: pointer;
     border: 2px solid #FFBF00;
