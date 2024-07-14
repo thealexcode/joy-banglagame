@@ -1,0 +1,201 @@
+/* Add these styles for the video background */
+#background-video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+    opacity: 1; /* Adjust this value to blend with the background color */
+}
+
+body {
+    color: red;
+    margin: 0; /* Ensure there's no margin around the video */
+    overflow: hidden; /* Prevent scrolling to ensure video stays fixed */
+}
+
+.container {
+    max-width: 400px;
+    margin: 50px auto;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+h1 {
+    font-size: 36px;
+    margin-bottom: 20px;
+    color: #FFFFFF;
+    text-align: center;
+    background: #FFCA2C;
+    border-radius: 20px;
+    box-shadow: 0px 10px 50px rgba(255, 191, 0, 0. );
+    font-family: 'CharukolaUltraLight', sans-serif;
+}
+
+#board {
+    display: grid;
+    grid-template-columns: repeat(3, 100px);
+    grid-template-rows: repeat(3, 100px);
+    gap: 10px;
+    margin-bottom: 85px;
+}
+
+.cell {
+    width: 100px;
+    height: 100px;
+    border: 2px solid #FFCA2C;
+    background-color: #FFCA2C;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 36px;
+    cursor: pointer;
+    transition: background-color 1s;
+    margin: 30px;
+    border-radius: 20px;
+    color: white;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+}
+
+.cell:hover {
+    background-color: #436AEA;
+}
+
+/* Style the popup notification */
+.popup {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #FFFFFF;
+    padding: 20px;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+    z-index: 9999;
+    border-radius: 30px;
+    text-align: center;
+    font-family: 'Kalpurush', sans-serif;
+}
+
+.popup button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background-color: #FFBF00;
+    color: red;
+    font-family: 'Kalpurush', sans-serif;
+    transition: background-color 0.3s ease;
+}
+
+.popup button:hover {
+    background-color: #FFDD44;
+}
+
+/* New button styles */
+.wrapper {
+    position: fixed;
+    top: 70%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+a {
+    display: block;
+    width: 300px;
+    height: 40px;
+    line-height: 40px;
+    font-size: 18px;
+    font-family: sans-serif;
+    text-decoration: none;
+    color: #FFFFFF;
+    border: 2px solid #FFBF00;
+    letter-spacing: 2px;
+    text-align: center;
+    position: relative;
+    transition: all .35s;
+    border-radius: 20px;
+}
+
+a span {
+    position: relative;
+    z-index: 2;
+    font-family: 'Kalpurush', sans-serif;
+}
+
+a:after {
+    position: absolute;
+    content: "";
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    background: #436AEA;
+    transition: all .35s;
+    border-radius: 20px;
+}
+
+a:hover {
+    color: #FFFFFF;
+    border-radius: 20px;
+}
+
+a:hover:after {
+    width: 100%;
+    border-radius: 20px;
+}
+
+/* Add this to your existing CSS */
+
+/* Create an overlay to hold the blur effect */
+.blur-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.2); /* Slightly opaque background */
+    backdrop-filter: blur(5px); /* Apply the blur effect */
+    z-index: 9998; /* Ensure it is below the popup but above everything else */
+    display: none; /* Initially hidden */
+}
+
+.scoreboard {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    font-size: 18px;
+    font-family: 'Kalpurush', sans-serif;
+    color: #FFFFFF;
+}
+
+.score-x, .score-o {
+    flex: 1;
+    text-align: center;
+}
+
+.score-x p, .score-o p {
+    margin: 100px 0;
+}
+
+
+footer {
+    position: fixed;
+    bottom: 10px;
+    width: 100%;
+    text-align: center;
+    color: white;
+    font-family: 'Kalpurush', sans-serif;
+    z-index: 1;
+    padding: 10px;
+    font-size: 9px;
+}
