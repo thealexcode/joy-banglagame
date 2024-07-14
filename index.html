@@ -4,30 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TIC TAC TOE</title>
-   
+    
+      <!--Font Awesome-->
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  
+  <!--BANGLA WEB FONT -->
+  
     <link href="https://fonts.maateen.me/charukola-ultra-light/font.css" rel="stylesheet">
     <link href="https://fonts.maateen.me/kalpurush/font.css" rel="stylesheet">
+    
     
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
- 
     <!-- Video Background -->
     <video autoplay muted loop id="background-video">
         <source src="video_background.mp4" type="video/mp4">
         Your browser does not support HTML5 video.
     </video>
-
+    
     <div class="container">
-        <h1>🇧🇩 জয় বাংলা 🇧🇩</h1>
-            <!-- Add this block inside <div class="container">, before the game board -->
-
-<div class="mode-selection">
-    <button id="player-vs-player">আমি VS বন্ধু </button>
-    <button id="player-vs-ai">আমি VS রোবট </button>
+<div class="music-menu">
+    <i class="fa-solid fa-music" id="music-icon"></i>
+    <div class="music-controls" id="music-controls">
+        <button id="stop-music">Stop Music</button>
+        <button id="volume-down">Volume -</button>
+        <button id="volume-up">Volume +</button>
+    </div>
 </div>
+        <h1>🇧🇩 জয় বাংলা 🇧🇩</h1>
+        <div class="mode-selection">
+            <button id="player-vs-player">আমি VS বন্ধু </button>
+            <button id="player-vs-ai">আমি VS রোবট </button>
+        </div>
         <div id="board">
-         
             <div class="cell" id="0"></div>
             <div class="cell" id="1"></div>
             <div class="cell" id="2"></div>
@@ -49,6 +60,7 @@
     <!-- Popup Notification -->
     <div id="popup" class="popup">
         <p>আস্সালামুআলাইকুম স্বাগতম আপনাদের বাংলাদেশের সবচেয়ে বড় রাজনৈতিক গেম এ</p>
+         <p class="warning">⚠️ WARNING ⚠️ <br>আপনাদের অবগতির জন্য জানানো যাচ্ছে যে এই গেম টি শুধু মাত্র মোবাইল ভার্সন এর জন্য কিছু দিনের ভিতর এই গেম টি কম্পিউটার এর জন্য প্রস্তুত হয়ে যাবে </p>
         <button id="start-game">Start Game</button>
     </div>
 
@@ -60,7 +72,6 @@
     <audio id="win-sound-o" src="win-sound2.mp3"></audio>
     <audio id="draw-sound" src="draw-sound.mp3"></audio>
     
-    <!-- Add this inside <div class="container"> after the game board -->
     <div class="scoreboard">
         <div class="score-x">
             <p>X Score: <span id="score-x">0</span></p>

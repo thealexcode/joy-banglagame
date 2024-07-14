@@ -6,6 +6,7 @@ const winSoundO = document.getElementById('win-sound-o');
 const drawSound = document.getElementById('draw-sound');
 const playerVsPlayerButton = document.getElementById('player-vs-player');
 const playerVsAiButton = document.getElementById('player-vs-ai');
+const backgroundMusic = document.getElementById('background-music');
 
 let currentPlayer = 'X';
 let gameEnded = false;
@@ -221,7 +222,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Play the background music after welcome audio ends
     audio.addEventListener('ended', function() {
-      var backgroundMusic = document.getElementById('background-music');
       backgroundMusic.loop = true;
       backgroundMusic.play().catch(error => {
         console.log('Autoplay was prevented:', error);
@@ -229,14 +229,40 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   });
 
-  // Stop background music when the user exits the page
-  window.addEventListener('beforeunload', function() {
-    var backgroundMusic = document.getElementById('background-music');
-    backgroundMusic.pause();
-    backgroundMusic.currentTime = 0;
-  });
-
   // Update initial scores in UI
   document.getElementById('score-x').textContent = scoreX;
   document.getElementById('score-o').textContent = scoreO;
+});
+
+// Stop background music when the user exits the page
+window.addEventListener('beforeunload', function() {
+  backgroundMusic.pause();
+  backgroundMusic.currentTime = 0;
+});
+
+
+
+// EXIT BUTTON STOP MUSIC ETC.
+
+const musicIcon = document.getElementById('music-icon');
+const musicControls = document.getElementById('music-controls');
+
+musicIcon.addEventListener('click', () => {
+    musicControls.style.display = musicControls.style.display === 'none' || musicControls.style.display === '' ? 'flex' : 'none';
+});
+
+document.getElementById('stop-music').addEventListener('click', () => {
+    backgroundMusic.pause();
+});
+
+document.getElementById('volume-down').addEventListener('click', () => {
+    if (backgroundMusic.volume > 0) {
+        backgroundMusic.volume = Math.max(0, backgroundMusic.volume - 0.1);
+    }
+});
+
+document.getElementById('volume-up').addEventListener('click', () => {
+    if (backgroundMusic.volume < 1) {
+        backgroundMusic.volume = Math.min(1, backgroundMusic.volume + 0.1);
+    }
 });
