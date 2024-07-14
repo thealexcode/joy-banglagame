@@ -206,3 +206,27 @@ footer {
 .copyright{
  margin-left: 116.5px;
 }
+
+
+.mode-selection {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.mode-selection button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border: 2px solid #FFBF00;
+    border-radius: 5px;
+    background-color: #436AEA;
+    color: #FFFFFF;
+    font-family: 'Kalpurush', sans-serif;
+    transition: background-color 0.3s ease;
+}
+
+.mode-selection button:hover {
+    background-color: #FFBF00;
+    color: #000000;
+}

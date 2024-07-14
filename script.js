@@ -4,10 +4,24 @@ const clickSound = document.getElementById('click-sound');
 const winSoundX = document.getElementById('win-sound-x');
 const winSoundO = document.getElementById('win-sound-o');
 const drawSound = document.getElementById('draw-sound');
+const playerVsPlayerButton = document.getElementById('player-vs-player');
+const playerVsAiButton = document.getElementById('player-vs-ai');
+
 let currentPlayer = 'X';
 let gameEnded = false;
 let scoreX = 0;
 let scoreO = 0;
+let mode = 'player-vs-player'; // Default mode
+
+playerVsPlayerButton.addEventListener('click', () => {
+  mode = 'player-vs-player';
+  resetGame();
+});
+
+playerVsAiButton.addEventListener('click', () => {
+  mode = 'player-vs-ai';
+  resetGame();
+});
 
 cells.forEach(cell => {
   cell.addEventListener('click', handleClick);
@@ -19,17 +33,97 @@ function handleClick() {
   if (gameEnded || this.textContent !== '') return;
 
   this.textContent = currentPlayer;
-  
+
   // Play the click sound
   clickSound.play().catch(error => {
     console.log('Autoplay was prevented:', error);
   });
 
   checkWinner();
-  currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+  if (mode === 'player-vs-ai' && !gameEnded) {
+    // Add a delay before the AI moves
+    setTimeout(aiMove, 1000); // Adjust the delay here (1000ms = 1s)
+  } else {
+    currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+  }
 }
 
-function checkWinner() {
+function aiMove() {
+  // Play the click sound for AI move
+  clickSound.play().catch(error => {
+    console.log('Autoplay was prevented:', error);
+  });
+
+  const bestMove = findBestMove();
+  if (bestMove !== null) {
+    cells[bestMove].textContent = 'O';
+    checkWinner();
+    currentPlayer = 'X';
+  }
+}
+
+function findBestMove() {
+  let bestScore = -Infinity;
+  let move;
+
+  for (let i = 0; i < cells.length; i++) {
+    if (cells[i].textContent === '') {
+      cells[i].textContent = 'O';
+      const score = minimax(cells, 0, false);
+      cells[i].textContent = '';
+      if (score > bestScore) {
+        bestScore = score;
+        move = i;
+      }
+    }
+  }
+
+  return move;
+}
+
+function minimax(board, depth, isMaximizing) {
+  const scores = {
+    X: -10,
+    O: 10,
+    draw: 0
+  };
+
+  const winner = checkWinnerMinimax();
+  if (winner) {
+    return scores[winner];
+  }
+
+  if (isBoardFull()) {
+    return scores.draw;
+  }
+
+  let bestScore;
+  if (isMaximizing) {
+    bestScore = -Infinity;
+    for (let i = 0; i < board.length; i++) {
+      if (board[i].textContent === '') {
+        board[i].textContent = 'O';
+        const score = minimax(board, depth + 1, false);
+        board[i].textContent = '';
+        bestScore = Math.max(score, bestScore);
+      }
+    }
+  } else {
+    bestScore = Infinity;
+    for (let i = 0; i < board.length; i++) {
+      if (board[i].textContent === '') {
+        board[i].textContent = 'X';
+        const score = minimax(board, depth + 1, true);
+        board[i].textContent = '';
+        bestScore = Math.min(score, bestScore);
+      }
+    }
+  }
+
+  return bestScore;
+}
+
+function checkWinnerMinimax() {
   const winningConditions = [
     [0, 1, 2],
     [3, 4, 5],
@@ -43,34 +137,46 @@ function checkWinner() {
 
   for (let condition of winningConditions) {
     const [a, b, c] = condition;
-    if (cells[a].textContent !== '' &&
-      cells[a].textContent === cells[b].textContent &&
-      cells[a].textContent === cells[c].textContent) {
-      gameEnded = true;
-
-      // Play the win sound based on the current player
-      if (cells[a].textContent === 'X') {
-        winSoundX.play().catch(error => {
-          console.log('Autoplay was prevented:', error);
-        });
-        scoreX++; // Increase X score
-        document.getElementById('score-x').textContent = scoreX; // Update UI
-      } else if (cells[a].textContent === 'O') {
-        winSoundO.play().catch(error => {
-          console.log('Autoplay was prevented:', error);
-        });
-        scoreO++; // Increase O score
-        document.getElementById('score-o').textContent = scoreO; // Update UI
-      }
-
-      setTimeout(() => {
-        alert(`${cells[a].textContent} তুমি জিতেছো বাবা 😁`);
-      }, 100);
-      return; // Stop further checking once a winner is found
+    if (cells[a].textContent === cells[b].textContent && cells[a].textContent === cells[c].textContent) {
+      if (cells[a].textContent === 'O') return 'O';
+      if (cells[a].textContent === 'X') return 'X';
     }
   }
 
-  if (!gameEnded && [...cells].every(cell => cell.textContent !== '')) {
+  return null;
+}
+
+function isBoardFull() {
+  return [...cells].every(cell => cell.textContent !== '');
+}
+
+function checkWinner() {
+  const winner = checkWinnerMinimax();
+  if (winner) {
+    gameEnded = true;
+
+    // Play the win sound based on the current player
+    if (winner === 'X') {
+      winSoundX.play().catch(error => {
+        console.log('Autoplay was prevented:', error);
+      });
+      scoreX++; // Increase X score
+      document.getElementById('score-x').textContent = scoreX; // Update UI
+    } else if (winner === 'O') {
+      winSoundO.play().catch(error => {
+        console.log('Autoplay was prevented:', error);
+      });
+      scoreO++; // Increase O score
+      document.getElementById('score-o').textContent = scoreO; // Update UI
+    }
+
+    setTimeout(() => {
+      alert(`${winner} তুমি জিতেছো বাবা 😁`);
+    }, 100);
+    return; // Stop further checking once a winner is found
+  }
+
+  if (!gameEnded && isBoardFull()) {
     gameEnded = true;
 
     // Play the draw sound
@@ -121,6 +227,13 @@ document.addEventListener("DOMContentLoaded", function() {
         console.log('Autoplay was prevented:', error);
       });
     });
+  });
+
+  // Stop background music when the user exits the page
+  window.addEventListener('beforeunload', function() {
+    var backgroundMusic = document.getElementById('background-music');
+    backgroundMusic.pause();
+    backgroundMusic.currentTime = 0;
   });
 
   // Update initial scores in UI
