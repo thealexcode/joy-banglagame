@@ -43,21 +43,35 @@ function handleClick() {
   checkWinner();
   if (mode === 'player-vs-ai' && !gameEnded) {
     // Add a delay before the AI moves
-    setTimeout(aiMove, 1000); // Adjust the delay here (1000ms = 1s)
+    setTimeout(aiMove, 500); // Adjust the delay here (1000ms = 1s)
   } else {
     currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
   }
 }
 
 function aiMove() {
-  // Play the click sound for AI move
-  clickSound.play().catch(error => {
-    console.log('Autoplay was prevented:', error);
-  });
+  const probabilityOfBestMove = 0.7; // 70% chance to choose the best move
+  const randomMove = Math.random() > probabilityOfBestMove;
 
-  const bestMove = findBestMove();
-  if (bestMove !== null) {
-    cells[bestMove].textContent = 'O';
+  let move;
+
+  if (randomMove) {
+    // Choose a random empty cell
+    const emptyCells = [...cells].filter(cell => cell.textContent === '');
+    move = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+  } else {
+    // Choose the best move
+    move = findBestMove();
+  }
+
+  if (move !== null) {
+    move.textContent = 'O';
+
+    // Play the click sound immediately after the AI makes a move
+    clickSound.play().catch(error => {
+      console.log('Autoplay was prevented:', error);
+    });
+
     checkWinner();
     currentPlayer = 'X';
   }
@@ -74,14 +88,13 @@ function findBestMove() {
       cells[i].textContent = '';
       if (score > bestScore) {
         bestScore = score;
-        move = i;
+        move = cells[i]; // Change to reference the cell directly
       }
     }
   }
 
   return move;
 }
-
 function minimax(board, depth, isMaximizing) {
   const scores = {
     X: -10,
@@ -266,3 +279,4 @@ document.getElementById('volume-up').addEventListener('click', () => {
         backgroundMusic.volume = Math.min(1, backgroundMusic.volume + 0.1);
     }
 });
+
