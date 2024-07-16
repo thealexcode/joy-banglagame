@@ -50,7 +50,7 @@ function handleClick() {
 }
 
 function aiMove() {
-  const probabilityOfBestMove = 0.7; // 70% chance to choose the best move
+  const probabilityOfBestMove = 1; // 100% chance to choose the best move
   const randomMove = Math.random() > probabilityOfBestMove;
 
   let move;
